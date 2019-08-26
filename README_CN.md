@@ -16,12 +16,17 @@
 
 打开pubspec.yaml并将以下行添加到依赖项：
 
-Release 1.0 之前的版本
-
 ```json
-flutter_boost: ^0.0.400
+flutter_boost: ^0.0.415
 ```
 
+或者可以直接依赖github的项目的版本，Tag，pub发布会有延迟，推荐直接依赖Github项目
+```java
+flutter_boost:
+        git:
+            url: 'https://github.com/alibaba/flutter_boost.git'
+            ref: '0.0.415'
+```
 ## Dart代码的集成
 将init代码添加到App App
 
@@ -57,6 +62,8 @@ class _MyAppState extends State<MyApp> {
 ```
 
 ## iOS代码集成。
+
+注意：需要将libc++ 加入 "Linked Frameworks and Libraries" 中。
 
 使用FLBFlutterAppDelegate作为AppDelegate的超类
 
@@ -246,12 +253,23 @@ FlutterBoost.singleton.closePageForContext(context);
 # Examples
 更详细的使用例子请参考Demo
 
-
-# 作者
-阿里巴巴闲鱼终端团队
-
 # 许可证
 该项目根据MIT许可证授权 - 有关详细信息，请参阅[LICENSE.md]（LICENSE.md）文件
 <a name="Acknowledgments"> </a>
-# 致谢
-- Flutter
+
+## 关于我们
+阿里巴巴-闲鱼技术是国内最早也是最大规模线上运行Flutter的团队。
+
+我们在公众号中为你精选了Flutter独家干货，全面而深入。
+
+内容包括：Flutter的接入、规模化应用、引擎探秘、工程体系、创新技术等教程和开源信息。
+
+**架构／服务端／客户端／前端／算法／质量工程师 在公众号中投递简历，名额不限哦**
+
+欢迎来闲鱼做一个好奇、幸福、有影响力的程序员，简历投递：tino.wjf@alibaba-inc.com
+
+订阅地址
+
+<img src="https://img.alicdn.com/tfs/TB17Ki5XubviK0jSZFNXXaApXXa-656-656.png" width="328px" height="328px">
+
+[For English](https://twitter.com/xianyutech "For English")

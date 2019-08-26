@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
 A new Flutter plugin make flutter better to use!
                        DESC
   s.homepage         = 'http://example.com'
-  s.license          = { :file => '../LICENSE' }
+  s.license          = { :file => '../LICENSE.md' }
   s.author           = { 'Alibaba Xianyu' => 'email@example.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*.{h,m,mm}'
@@ -24,6 +24,8 @@ A new Flutter plugin make flutter better to use!
 
   s.dependency 'Flutter'
   s.dependency 'xservice_kit'
+
+  s.libraries = 'c++'
 
   s.ios.deployment_target = '8.0'
 end

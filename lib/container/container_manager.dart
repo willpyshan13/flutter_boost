@@ -28,7 +28,7 @@ import 'package:flutter_boost/container/boost_container.dart';
 import 'package:flutter_boost/container/container_coordinator.dart';
 import 'package:flutter_boost/flutter_boost.dart';
 import 'package:flutter_boost/support/logger.dart';
-
+import 'package:flutter_boost/container/navigator_observer.dart';
 enum ContainerOperation { Push, Onstage, Pop, Remove }
 
 typedef BoostContainerObserver = void Function(
@@ -37,7 +37,11 @@ typedef BoostContainerObserver = void Function(
 @immutable
 class BoostContainerManager extends StatefulWidget {
   final Navigator initNavigator;
-  const BoostContainerManager({Key key, this.initNavigator}) : super(key: key);
+  final PrePushRoute prePushRoute;
+  final PostPushRoute postPushRoute;
+  const BoostContainerManager(
+      {Key key, this.initNavigator, this.prePushRoute, this.postPushRoute})
+      : super(key: key);
 
   @override
   ContainerManagerState createState() => ContainerManagerState();
@@ -69,6 +73,10 @@ class ContainerManagerState extends State<BoostContainerManager> {
 
   String _lastShownContainer;
 
+  PrePushRoute get prePushRoute => widget.prePushRoute;
+
+  PostPushRoute get postPushRoute => widget.postPushRoute;
+
   bool get foreground => _foreground;
 
   ManagerNavigatorObserver get navigatorObserver => _navigatorObserver;
@@ -91,6 +99,8 @@ class ContainerManagerState extends State<BoostContainerManager> {
 
     assert(widget.initNavigator != null);
     _onstage = BoostContainer.copy(widget.initNavigator);
+
+    FlutterBoost.containerManager.navigatorObserver.addBoostNavigatorObserver(NavigatorCanPopObserver());
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {});

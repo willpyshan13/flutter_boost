@@ -29,14 +29,21 @@
     if([params[@"present"] boolValue]){
         FLBFlutterViewContainer *vc = FLBFlutterViewContainer.new;
         [vc setName:name params:params];
-        [self.navigationController presentViewController:vc animated:animated completion:^{}];
+        [self.navigationController presentViewController:vc animated:animated completion:^{
+            if(completion) completion(YES);
+        }];
     }else{
         FLBFlutterViewContainer *vc = FLBFlutterViewContainer.new;
         [vc setName:name params:params];
         [self.navigationController pushViewController:vc animated:animated];
+        if(completion) completion(YES);
     }
 }
 
+- (BOOL)accessibilityEnable
+{
+    return YES;
+}
 
 
 - (void)closePage:(NSString *)uid animated:(BOOL)animated params:(NSDictionary *)params completion:(void (^)(BOOL))completion
@@ -48,4 +55,9 @@
         [self.navigationController popViewControllerAnimated:animated];
     }
 }
+
+- (void)flutterCanPop:(BOOL)canpop {
+    self.navigationController.interactivePopGestureRecognizer.enabled = !canpop;
+}
+
 @end
