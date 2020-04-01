@@ -1,15 +1,14 @@
 package com.taobao.idlefish.flutterboostexample;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.taobao.idlefish.flutterboost.FlutterBoostPlugin;
-
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,13 +44,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        Map params = new HashMap();
+        params.put("test1","v_test1");
+        params.put("test2","v_test2");
+        //Add some params if needed.
         if (v == mOpenNative) {
-            PageRouter.openPageByUrl(this, PageRouter.NATIVE_PAGE_URL);
+            PageRouter.openPageByUrl(this, PageRouter.NATIVE_PAGE_URL , params);
         } else if (v == mOpenFlutter) {
-            PageRouter.openPageByUrl(this, PageRouter.FLUTTER_PAGE_URL);
-            FlutterBoostPlugin.onPageResult("result_id_100",new HashMap(),new HashMap());
+            PageRouter.openPageByUrl(this, PageRouter.FLUTTER_PAGE_URL,params);
         } else if (v == mOpenFlutterFragment) {
-            PageRouter.openPageByUrl(this, PageRouter.FLUTTER_FRAGMENT_PAGE_URL);
+            PageRouter.openPageByUrl(this, PageRouter.FLUTTER_FRAGMENT_PAGE_URL,params);
         }
     }
 }

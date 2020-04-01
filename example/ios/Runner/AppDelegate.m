@@ -8,7 +8,8 @@
 
 #import "AppDelegate.h"
 #import "UIViewControllerDemo.h"
-#import "DemoRouter.h"
+#import "PlatformRouterImp.h"
+#import "NativeViewController.h"
 #import <flutter_boost/FlutterBoost.h>
 
 @interface AppDelegate ()
@@ -19,6 +20,12 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    PlatformRouterImp *router = [PlatformRouterImp new];
+    [FlutterBoostPlugin.sharedInstance startFlutterWithPlatform:router
+                                                        onStart:^(FlutterEngine *engine) {
+                                                            
+                                                        }];
+    
     self.window = [[UIWindow alloc] initWithFrame: [UIScreen mainScreen].bounds];
     
     
@@ -37,29 +44,26 @@
     UITabBarController *tabVC = [[UITabBarController alloc] init];
     UINavigationController *rvc = [[UINavigationController alloc] initWithRootViewController:tabVC];
     
-    DemoRouter *router = [DemoRouter sharedRouter];
+   
     router.navigationController = rvc;
     
     tabVC.viewControllers = @[vc,fvc];
     
     self.window.rootViewController = rvc;
     
-    
-    [FlutterBoostPlugin.sharedInstance startFlutterWithPlatform:router
-                                                        onStart:^(FlutterViewController *fvc) {
-                                                            
-                                                        }];
-    
-    
-    
-    
     UIButton *nativeButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    nativeButton.frame = CGRectMake(self.window.frame.size.width * 0.5 - 50, 200, 100, 45);
+    nativeButton.frame = CGRectMake(self.window.frame.size.width * 0.5 - 50, 200, 100, 40);
     nativeButton.backgroundColor = [UIColor redColor];
     [nativeButton setTitle:@"push native" forState:UIControlStateNormal];
     [nativeButton addTarget:self action:@selector(pushNative) forControlEvents:UIControlEventTouchUpInside];
     [self.window addSubview:nativeButton];
     
+    UIButton *pushEmbeded = [UIButton buttonWithType:UIButtonTypeCustom];
+    pushEmbeded.frame = CGRectMake(self.window.frame.size.width * 0.5 - 70, 150, 140, 40);
+    pushEmbeded.backgroundColor = [UIColor redColor];
+    [pushEmbeded setTitle:@"push embeded" forState:UIControlStateNormal];
+    [pushEmbeded addTarget:self action:@selector(pushEmbeded) forControlEvents:UIControlEventTouchUpInside];
+    [self.window addSubview:pushEmbeded];
     
     return YES;
 }
@@ -71,6 +75,12 @@
     [nvc pushViewController:vc animated:YES];
 }
 
+- (void)pushEmbeded
+{
+    UINavigationController *nvc = (id)self.window.rootViewController;
+    UIViewController *vc = [[NativeViewController alloc] init];
+    [nvc pushViewController:vc animated:YES];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
